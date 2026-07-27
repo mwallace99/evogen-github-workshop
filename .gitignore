@@ -1,0 +1,12 @@
+# Local Claude Code settings — machine-specific, not part of the workshop
+.claude/
+
+# OS and editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+*~
+
+# OneDrive conflict copies
+*conflicted copy*

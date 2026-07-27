@@ -1,0 +1,41 @@
+# --- Derived outputs -------------------------------------------------------
+# Anything a script regenerates. Committing outputs means every re-run produces
+# a spurious diff, and the repository slowly fills with stale figures nobody
+# can match to the code that made them.
+results/
+figures/
+output/
+
+# --- Data too big or too sensitive for git ---------------------------------
+# git is for text you want to diff, not 40 GB of FASTQs. Big/raw data belongs on
+# the HPC filesystem or in a data repository; the repo holds the code and the
+# small derived tables needed to reproduce the figures.
+*.fastq
+*.fastq.gz
+*.fq.gz
+*.bam
+*.bai
+*.sam
+data/interim/
+data/processed/
+
+# --- Credentials -----------------------------------------------------------
+# Never commit these. Once pushed, assume they are compromised even if you
+# delete the commit -- git history is forever and forks keep copies.
+.env
+*.pem
+*_rsa
+credentials.json
+
+# --- Language and editor noise ---------------------------------------------
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+.Rhistory
+.RData
+.Rproj.user/
+.DS_Store
+Thumbs.db
+.vscode/
