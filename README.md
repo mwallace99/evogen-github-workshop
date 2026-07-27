@@ -27,18 +27,36 @@ window and paste from it as you talk.
 repository live. A README, a licence, a citation file, a `.gitignore` worth talking
 about, and a couple of placeholder files standing in for real work.
 
-`staged/` holds the two things you drop into the forked website: `configure-site.sh`,
-which rewrites `_config.yml`, and `site-homepage.md`, which replaces the template's
-front page.
+`PREREQUISITES.md` is the email to send a week beforehand. It asks for one thing: a
+GitHub account with a verified email address.
+
+`HANDOUT.md` is what attendees follow during the hands-on block. Print it or share
+the link — don't make people work from your screen.
+
+## The website they build
+
+Attendees fork **<https://github.com/mwallace99/evogen-website-template>**, a trimmed
+copy of [Academic Pages](https://github.com/academicpages/academicpages.github.io)
+with the developer tooling and most of the example content removed. Setup is
+browser-only: fork, edit five lines, switch Pages on.
+
+A finished example lives at
+**<https://mwallace99.github.io/evogen-website-preview/>** — show it before anyone
+starts, and keep it open as a fallback.
+
+Put an ORCID iD in `_config.yml` and the Publications page fills itself from that
+ORCID record, so it stays current with no maintenance. Google Scholar can't be
+automated the same way — no public API, and scraping breaks Google's terms — so the
+template links to a Scholar profile instead.
 
 ## Before you present
 
 Read the pre-flight section of the run sheet the evening before, not the morning of.
-Two things in it genuinely need doing in advance: creating the `evogen-demo`
-organisation, which cannot be done from the CLI, and rehearsing the Zenodo step
+Two things in it genuinely need doing in advance: sending the prerequisites email and
+chasing anyone who hasn't set up a GitHub account, and rehearsing the Zenodo step
 against <https://sandbox.zenodo.org> rather than the real Zenodo, because published
 records cannot be deleted.
 
-The names used throughout are set as variables at the top of `COMMANDS.sh`. If
-`evogen-demo` has been taken by the time you run this, change it in one place there
-and everything else follows.
+Rehearse Block 3 by forking the template into a spare account and following
+`HANDOUT.md` exactly as an attendee would. That's the only reliable way to find the
+step where your own instructions turn out to be ambiguous.

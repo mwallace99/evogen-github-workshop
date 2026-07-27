@@ -12,32 +12,48 @@ deliberate — the moment a demo depends on somebody's environment, it breaks.
 
 ---
 
-## Decide this first: they watch, they don't follow along
+## The shape: watch, watch, then build
 
-With mixed-to-no experience and 45 minutes, run it as a demonstration. Say so in
-your first minute — *"you don't need laptops open, I'll send you all of this
-afterwards"* — because otherwise half the room spends Block 1 installing git,
-someone's `gh auth login` opens a browser they can't find, and twenty minutes go to
-setup that teaches nobody anything.
+Blocks 1 and 2 you **demonstrate** — laptops shut, everyone watching one screen.
+Block 3 they **build their own website**, hands on, and leave with it working.
 
-Everything below assumes that. A genuine hands-on version is a two-hour session with
-a setup email a week beforehand, and it's a different build.
+Say this split out loud in your first minute, because it manages expectations in both
+directions: nobody sits through the first half feeling they should be typing, and
+nobody is caught out when the laptops open.
+
+**Block 3 happens entirely in a web browser.** No terminal, no git installed, nothing
+to download. That is the whole reason it's feasible — installing git and the GitHub
+CLI for a room of beginners is a twenty-minute detour that fails differently on every
+machine and teaches nothing. The browser path reaches the same finished website.
+
+The two supporting documents:
+
+- `PREREQUISITES.md` — the email to send a week out. It asks for one thing: a GitHub
+  account with a **verified** email. Send it again the day before.
+- `HANDOUT.md` — what attendees follow during Block 3. Print it or share the link.
+  Don't make them work from your screen; beginners can't watch and type at once, and
+  the room moves at different speeds.
 
 ---
 
 ## Timing
 
-| Start | Block | Runs |
-|---|---|---|
-| 0:00 | Framing — git vs GitHub | 5 min |
-| 0:05 | Block 1 — a folder becomes a repository | 15 min |
-| 0:20 | Block 2 — a DOI from Zenodo | 12 min |
-| 0:32 | Block 3 — a website, by forking | 15 min |
-| 0:47 | Wrap | 3 min |
+| Start | Block | Mode | Runs |
+|---|---|---|---|
+| 0:00 | Framing — git vs GitHub | demo | 5 min |
+| 0:05 | Block 1 — a folder becomes a repository | demo | 13 min |
+| 0:18 | Block 2 — a DOI from Zenodo | demo | 11 min |
+| 0:29 | Block 3 — build your own website | **hands on** | 25 min |
+| 0:54 | Wrap | — | 3 min |
 
-Fifty on paper: about 45 if you're crisp, about 60 with questions. Beginners ask
-more than you expect and you want them to. Two things are marked **CUT** below —
-drop those first if you're behind, and don't drop anything else.
+Fifty-seven on paper. Blocks 1 and 2 are trimmed from the demo-only version to buy
+Block 3 the time it needs — hands-on always runs long, and a room of beginners
+finishes at wildly different speeds.
+
+Three things are marked **CUT** below. Drop those first if you're behind, and don't
+drop anything else. If you're badly behind, cut into the Zenodo block rather than
+Block 3 — people forgive a rushed explanation, they don't forgive being abandoned
+half-way through building something.
 
 ---
 
@@ -45,17 +61,14 @@ drop those first if you're behind, and don't drop anything else.
 
 Twenty minutes, and it removes almost every way this can go wrong.
 
-**Create the org.** Free GitHub organisations can't be made from the CLI — the API
-endpoint is Enterprise-only — so this one is a web step:
-<https://github.com/organizations/plan> → Free → name it `evogen-demo`. The name was
-available when this was written; if it's gone, pick another and change `ORG` at the
-top of `COMMANDS.sh`.
+**Send the prerequisites email** a week out and again the day before — the text is in
+`PREREQUISITES.md`. Chase anyone who hasn't confirmed they have a GitHub account with
+a **verified** email; that's the one thing that will cost you time on the day.
 
-An org rather than your own account, for three reasons: your personal
-`mwallace99.github.io` already exists and hosts your real site, so the demo can't use
-that name; an org site gets the clean root URL `https://evogen-demo.github.io/` with
-no `baseurl` fiddling; and it's disposable afterwards. It also lets you make the
-aside that a lab should have one of these.
+**Check the template and preview are still up.** Nothing should have changed them,
+but they're load-bearing now:
+<https://github.com/mwallace99/evogen-website-template> and
+<https://mwallace99.github.io/evogen-website-preview/>.
 
 **Set your git identity.** `git config --global user.email` is unset on this
 machine. Without it your first commit fails on stage. Block 0 fixes it.
@@ -64,8 +77,9 @@ machine. Without it your first commit fails on stage. Block 0 fixes it.
 <https://sandbox.zenodo.org>. Published Zenodo records cannot be deleted. Rehearsing
 against production leaves permanent junk DOIs with your name on them.
 
-**Do a full dry run**, including the fork, then delete both repos. The fork is the
-step with the most moving parts and the longest wait.
+**Do a full dry run.** For Block 3, fork the template into a spare GitHub account and
+follow your own handout exactly as an attendee would — that's the only way to find
+the step where the instructions are ambiguous. Delete the rehearsal repos afterwards.
 
 **Check the room's projector** with your actual terminal font size. 18–20pt.
 
@@ -170,46 +184,58 @@ Finish by adding the badge to the README so the DOI is the first thing anyone se
 
 ---
 
-## 0:32 — Block 3: a website, by forking (15 min)
+## 0:29 — Block 3: build your own website (25 min, hands on)
 
-Start the fork running first, then talk over it.
+**Laptops open.** Hand out `HANDOUT.md` — printed, or as a link in the chat. Don't
+make them work from your screen; beginners can't watch and type at the same time, and
+the room will spread out over several minutes' progress within about ninety seconds.
 
-Now introduce **fork**, which you deliberately saved until here: a fork is your own
-copy of somebody else's repository. It keeps a link back to the original, so you can
-pull in their improvements later. A *template* gives you a clean copy with no
-connection to the source. academicpages officially recommends the template button
-these days — you're forking because the relationship to upstream is easier to *show*,
-and because forking is the operation they'll actually use the first time they touch
-someone else's code.
+**Show them the finished thing first**, before anyone touches anything:
+<https://mwallace99.github.io/evogen-website-preview/>. Thirty seconds. People work
+much better towards something they've seen.
 
-Three things to say as you hit them. Each is the difference between a working site and
-a broken one:
+Then introduce **fork**, which you deliberately saved until now: your own copy of
+somebody else's repository, which you can change freely without affecting theirs.
+They're forking `mwallace99/evogen-website-template` — a stripped-down version of
+academicpages with the developer tooling and most of the example content removed, so
+there's less to be confused by. Say that it's someone else's work you've trimmed;
+it's a good, quiet demonstration of the norm you're teaching.
 
-**The repo name is load-bearing.** Naming it `evogen-demo.github.io` is what buys the
-clean root URL. Any other name makes it a *project* site at `org.github.io/name/`, and
-then you must set `baseurl` in `_config.yml` or every stylesheet 404s and you get an
-unstyled wall of text. This is the most common academicpages complaint anywhere.
+**Do every step on the projector yourself, one step ahead of them**, and pause on each
+checkpoint until hands are up. The handout has four:
 
-**Delete `.github/workflows/` from your fork.** You inherit upstream's own CI — PR
-linting and a scheduled scraper — which in your copy is noise that emails you about
-failures forever.
+1. Fork exists, named `YOURNAME.github.io`
+2. `_config.yml` edited and committed
+3. Pages switched on in Settings
+4. Site loads
 
-**Pages source is "deploy from a branch → main → /", not "GitHub Actions",** because
-academicpages is built by Pages' own Jekyll builder. Getting this wrong is the usual
-reason a forked academicpages site comes up blank.
+**Where people actually get stuck**, in rough order of frequency:
 
-Show the six variables at the top of `configure-site.sh` before you run it. Worth a
-sentence on why it's a script rather than live editing: `_config.yml` has three
-different keys called `name` at three indent levels, so a naive find-and-replace edits
-the wrong one. The script matches the template's placeholder values instead.
+- *Typed their username wrong in the repo name.* Catch it at checkpoint 1 — it's a
+  thirty-second fix then, and a confusing one later.
+- *Broke the YAML* by deleting a quote or changing indentation. The repo shows a red
+  X. Fix via the file's History → revert. Reassure loudly: nothing is broken
+  permanently, this is exactly what version control is for. It's a nice callback to
+  Block 1.
+- *Unverified email.* Pages silently refuses to build and gives no message. If someone
+  has done everything right and nothing appears, check this first.
+- *Already had a `username.github.io`.* They named it something else; they now need
+  `baseurl: "/thatname"` in `_config.yml`. Handle individually, it's ten seconds.
 
-Push, enable Pages, and you now have one to three minutes of build time. **That's your
-questions slot — don't fill it with talking.** Then reveal the site.
+**The three-minute build wait is your friend, not dead air.** Use it deliberately:
+answer questions, and mention the ORCID feature — put your ORCID iD in `_config.yml`
+and the Publications page fills itself in from your ORCID record, updating whenever
+you add a paper. Worth being straight that Google Scholar can't do this, because
+someone always asks: no public API, and scraping breaks Google's terms. ORCID is the
+way round it.
 
-> **CUT if behind:** the `gh api .../deployments` call at step 3.10. With this
-> audience, "that build you just watched was a computer running your work
-> automatically — you've been using continuous integration for three minutes" is
-> better as one spoken sentence than as another API call on screen.
+**Expect a spread.** Some will finish in eight minutes, some in twenty. Give the fast
+ones something to do — replace the profile photo, edit the homepage text, add their
+ORCID iD — and spend your time with the stragglers. Say early and clearly that nobody
+needs to finish today and the site will still be there tomorrow.
+
+> **CUT if behind:** the sidebar and homepage personalisation. Getting a live URL is
+> the win; making it pretty can happen at home. Do not cut the build wait — you can't.
 
 ---
 
@@ -244,11 +270,12 @@ been.
 **No DOI a few minutes after the release** — check `gh api repos/OWNER/REPO/hooks`.
 No zenodo.org URL means the webhook was never created. Re-toggle and re-release.
 
-**The fork already exists** — you can't fork the same repo twice into one account.
-`gh repo delete evogen-demo/evogen-demo.github.io --yes` and fork again.
+**Someone can't fork** — they already forked the template earlier, perhaps in a
+rehearsal. You can't fork the same repository twice into one account. They delete the
+old fork in its Settings, or use *Use this template* instead, which has no such limit.
 
-**The site is an unstyled wall of text** — `url`/`baseurl` are wrong in `_config.yml`,
-or Pages is serving the wrong branch. Check `gh api repos/ORG/REPO/pages`.
+**Someone's site is an unstyled wall of text** — the `url` line in their `_config.yml`
+is wrong. It must be `"https://THEIRNAME.github.io"`, quoted, no trailing slash.
 
 **The site 404s** — Pages needs a couple of minutes on first build. Check `.status`
 from that same API call; you want `built`.

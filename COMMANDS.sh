@@ -21,10 +21,10 @@ export SEM="/mnt/c/Users/48441848/OneDrive - Macquarie University/01_Thesis/06_T
 export DEMO="$HOME/evogen-demo-live"
 rm -rf "$DEMO" && mkdir -p "$DEMO"
 
-# Names used throughout
+# Names used throughout. Only Blocks 1 and 2 use the terminal; Block 3 is all
+# browser, so there is nothing to configure for it.
 export GH_USER="mwallace99"
 export REPO="bee-virome-demo"
-export ORG="evogen-demo"
 
 # Your git identity. user.email is currently UNSET on this machine -- without it
 # your very first commit fails, on stage, in front of everyone.
@@ -144,57 +144,61 @@ gh repo view --web
 
 
 # ---------------------------------------------------------------------------
-# BLOCK 3 -- A website, by forking  (~15 min)
+# BLOCK 3 -- A website, by forking  (~25 min, HANDS ON)
+#
+# This block is almost entirely [WEB]. Attendees follow HANDOUT.md on their own
+# machines; you mirror every step on the projector, one step ahead of them.
+# Deliberately no command line -- installing git and gh for a room of beginners
+# is a twenty-minute detour that fails differently on every laptop.
 # ---------------------------------------------------------------------------
 
-# 3.1  Fork academicpages into the org, renaming as we go. Naming the repo
-#      <org>.github.io is what gets a clean root URL with no baseurl juggling.
-#      --default-branch-only keeps the fork small.
-gh repo fork academicpages/academicpages.github.io \
-  --org "$ORG" \
-  --fork-name "$ORG.github.io" \
-  --default-branch-only
+# 3.1  [WEB] Show them where they are heading, before anyone touches anything.
+#      https://mwallace99.github.io/evogen-website-preview/
 
-# 3.2  Clone it, shallow -- you want the template, not eight years of its history
-cd "$DEMO"
-gh repo clone "$ORG/$ORG.github.io" -- --depth 1
-cd "$ORG.github.io"
+# 3.2  [WEB] Everyone forks the template.
+#      https://github.com/mwallace99/evogen-website-template
+#      Fork button -> Repository name: THEIRNAME.github.io
+#      -> tick "Copy the main branch only" -> Create fork
+#
+#      CHECKPOINT 1: hands up when you see "forked from mwallace99/..."
 
-# 3.3  Delete the workflows inherited from upstream. They are that project's own
-#      CI (PR linting, a scheduled scraper). In your fork they are noise that
-#      will email you about failures forever.
-rm -rf .github/workflows
+# 3.3  [WEB] Everyone edits _config.yml (pencil icon) and changes five lines:
+#        title       your site title
+#        name        your name  (keep the &name part!)
+#        url         "https://THEIRNAME.github.io"
+#        repository  "THEIRNAME/THEIRNAME.github.io"
+#        bio         a sentence about their research
+#      Then: Commit changes.
+#
+#      Only url and repository have to be right. Keep the quotes; don't touch
+#      the indentation.
+#
+#      CHECKPOINT 2: hands up when you can see your own name in the file
 
-# 3.4  Configure the site. Open the script and show them the six variables first.
-cp "$SEM/staged/configure-site.sh" .
-sed -n '15,25p' configure-site.sh
-bash configure-site.sh
+# 3.4  [WEB] Settings -> Pages -> Source: "Deploy from a branch"
+#                                 Branch: main   Folder: / (root)  -> Save
+#
+#      CHECKPOINT 3: hands up when it says your site is being built
 
-# 3.5  Replace the homepage
-cp "$SEM/staged/site-homepage.md" _pages/about.md
+# 3.5  Wait 1-3 minutes. Use it: take questions, and mention the ORCID feature
+#      (add author.orcid_id to _config.yml and the Publications page fills
+#      itself from ORCID). Be straight that Google Scholar cannot do this --
+#      no public API, and scraping breaks their terms.
 
-# 3.6  Ship it
-git add -A
-git commit -m "Configure site for EvoGen workshop"
-git push
+# 3.6  [WEB] https://THEIRNAME.github.io
+#
+#      CHECKPOINT 4: done.
 
-# 3.7  Turn on GitHub Pages: source is the main branch, root folder.
-#      academicpages is built by Pages' own Jekyll builder, not by a workflow --
-#      which is why this is "deploy from a branch" rather than "GitHub Actions".
-gh api -X POST "repos/$ORG/$ORG.github.io/pages" \
-  -f "source[branch]=main" -f "source[path]=/"
+# --- Your own copy, if you want one on screen ------------------------------
+# You cannot fork to mwallace99.github.io -- that name is taken by your real
+# site. Either drive a spare account, or fork to a different name and add
+# baseurl: "/thatname" to _config.yml.
 
-# 3.8  Watch it build. Takes 1-3 minutes -- fill it with the fork-vs-template
-#      talk, or take questions.
-gh api "repos/$ORG/$ORG.github.io/pages" --jq '.status, .html_url'
-
-# 3.9  Open the finished site
-echo "https://$ORG.github.io/"
-
-# 3.10 Optional closer, costs nothing: the build you just watched WAS automation.
-#      Show them the deployment history and make the point that they have been
-#      using CI for the last three minutes without being told.
-gh api "repos/$ORG/$ORG.github.io/deployments" --jq '.[0] | {environment, created_at}'
+# --- Troubleshooting, from the front of the room ---------------------------
+# Red X on their repo        -> broken YAML. File -> History -> revert.
+# 404 that will not go away  -> repo name must be exactly THEIRNAME.github.io
+# Loads but unstyled         -> url line wrong in _config.yml
+# Nothing ever publishes     -> unverified email; github.com/settings/emails
 
 
 # ---------------------------------------------------------------------------
